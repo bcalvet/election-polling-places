@@ -212,7 +212,15 @@ dojo.declare("js.Config", null, {
         LocatorFieldName: 'Loc_name',
         LocatorFieldValues: ["USA.StreetName", "USA.PointAddress", "USA.StreetAddress"],
         AddressMatchScore: 80,
-        LocatorRippleSize: 40
+        LocatorRippleSize: 40,
+		UseDefault: true,
+		UseSuggestions: true,
+		SuggestCenterX: 249379,
+		SuggestCenterY: 6246991,
+		SuggestDistance: 10000,
+		BaseMapWkid: 102100,
+		SuggestTimeout: 1000,
+		DefaultCity: ""
     },
 
     // ------------------------------------------------------------------------------------------------------------------------
