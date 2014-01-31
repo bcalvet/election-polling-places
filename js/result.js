@@ -259,9 +259,9 @@ function GetpollingId(features) {
     precinctID.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, function (match, key) {
         precinctField = key;
     });
-
+	
     var queryTable = new esri.tasks.Query();
-    queryTable.where = precinctField + "= '" + features[0].attributes.PRECINCTID + "'";
+    queryTable.where = precinctField + "= '" + features[0].attributes[precinctField] + "'";
     queryTable.outFields = [relationshipId];
     map.getLayer(precinctOfficeLayerId).queryFeatures(queryTable, function (features) {
         if (features.features.length > 0) {
@@ -341,8 +341,7 @@ function GetDesignatedPollingPlace(features, precinctAttrs) {
             if (isMobileDevice) {
                 ShowServiceInfoDetails(pollPoint, features[0].attributes);
             }
-        }
-        if (!isMobileDevice) {
+			else {
             var imgToggle = dojo.byId('imgToggleResults');
             if (imgToggle.getAttribute("state") == "minimized") {
                 imgToggle.setAttribute("state", "maximized");
@@ -366,6 +365,26 @@ function GetDesignatedPollingPlace(features, precinctAttrs) {
                 // maximize
             }
         }
+        } else {
+			selectedPollPoint = null;
+            featureID = null;
+            pollPoint = null;
+            mapPoint = null;
+            HideProgressIndicator();
+            map.infoWindow.hide();
+            ClearSelection();
+            ShowInfoDetailsView();
+            map.getLayer(routeGraphicsLayerId).clear();
+            if (!isMobileDevice) {
+                var imgToggle = dojo.byId('imgToggleResults');
+                if (imgToggle.getAttribute("state") == "maximized") {
+                    imgToggle.setAttribute("state", "minimized");
+                    WipeOutResults();
+                    dojo.byId('imgToggleResults').src = "images/up.png";
+                }
+            }
+            alert(messages.getElementsByTagName("designatedPollingPlaces")[0].childNodes[0].nodeValue);
+		}
     });
 }
 
